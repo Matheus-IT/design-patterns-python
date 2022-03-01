@@ -1,17 +1,15 @@
-from abc import ABC, abstractclassmethod
 from collections import namedtuple
 from time import sleep
 import timeit
-from typing import List
+from typing import Protocol, List
 
 
-class TransportationStrategy(ABC):
-    @abstractclassmethod
+class TransportationStrategy(Protocol):
     def get_to_airport(self, person):
         raise NotImplementedError
 
 
-class BicycleStrategy(TransportationStrategy):
+class BicycleStrategy:
     def get_to_airport(self, person):
         print(
             f'{person.name} is going by bicycle... 🚴\n'
@@ -20,7 +18,7 @@ class BicycleStrategy(TransportationStrategy):
         sleep(2)
 
 
-class BusStrategy(TransportationStrategy):
+class BusStrategy:
     def get_to_airport(self, person):
         print(
             f'{person.name} is going by bus... 🚌\n'
@@ -29,7 +27,7 @@ class BusStrategy(TransportationStrategy):
         sleep(1)
 
 
-class CarStrategy(TransportationStrategy):
+class CarStrategy:
     def get_to_airport(self, person):
         print(
             f'{person.name} is going by car 🚗\nIt\'s more convenient and '
