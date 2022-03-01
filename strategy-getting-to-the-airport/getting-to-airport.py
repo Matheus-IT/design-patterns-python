@@ -39,6 +39,8 @@ class CarStrategy(TransportationStrategy):
 
 
 class TransportationAssessment:
+    """Assess each transportation strategy to get the faster way possible"""
+
     def __init__(self, person, strategies: List[TransportationStrategy]):
         self.person = person
         self.strategies = strategies
