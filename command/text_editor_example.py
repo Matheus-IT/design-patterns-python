@@ -3,50 +3,50 @@ from editor import Editor
 
 
 class Command(ABC):
-	backup: str
+    backup: str
 
-	def __init__(self, editor: Editor):
-		self.editor = editor
+    def __init__(self, editor: Editor):
+        self.editor = editor
 
-	@abstractmethod
-	def execute(self):
-		pass
+    @abstractmethod
+    def execute(self):
+        pass
 
-	def backup(self):
-		self.backup = self.editor.text_field.value
+    def do_backup(self):
+        self.backup = self.editor.text_field.value
 
-	def undo(self):
-		self.editor.text_field.value = self.backup
+    def undo(self):
+        self.editor.text_field.value = self.backup
 
 
 class CopyAllEditorContentCommand(Command):
-	def execute(self):
-		self.editor.clipboard = self.editor.text_field.value
+    def execute(self):
+        self.editor.clipboard = self.editor.text_field.value
 
 
 class PasteClipboardContentCommand(Command):
-	def execute(self):
-		if self.editor.clipboard != '':
-			self.backup()
-			self.editor.text_field.insert(self.editor.clipboard)
+    def execute(self):
+        if self.editor.clipboard != '':
+            self.do_backup()
+            self.editor.text_field.insert(self.editor.clipboard)
 
 
 def main():
-	e = Editor()
-	e.text_field.value = 'hello'
-	
-	c = CopyAllEditorContentCommand(e)
-	c.execute()
+    e = Editor()
+    e.text_field.value = 'hello'
 
-	p = PasteClipboardContentCommand(e)
-	p.execute()
+    c = CopyAllEditorContentCommand(e)
+    c.execute()
 
-	print(e.text_field.value)      # -> hellohello
+    p = PasteClipboardContentCommand(e)
+    p.execute()
 
-	p.undo()                       # -> hello
+    print(e.text_field.value)  # -> hellohello
 
-	print(e.text_field.value)
+    p.undo()  # -> hello
+
+    print(e.text_field.value)
 
 
 if __name__ == '__main__':
-	main()
+    main()
